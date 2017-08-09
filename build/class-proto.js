@@ -147,9 +147,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     var createClass = exports.createClass = function (module) {
       var w = function (o) {
         var instance = Object.create(module);
-        instance.init(o);
+        var result = instance.init(o);
 
-        return instance;
+        return result !== undefined ? result : instance;
       };
       w.__mojsClass = module;
       return w;
@@ -173,7 +173,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      *   - declare `_vars` after extention
      *   - call `_render` eventually
      */
-    var ClassProto = {};
+    var ClassProtoClass = {};
 
     /**
      * `get` - Method to get a property from `_props`.
@@ -182,7 +182,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      * @param {String} Key.
      * @returns {Any} Value from the `_props` by `key`.
      */
-    ClassProto.get = function (key) {
+    ClassProtoClass.get = function (key) {
       return this._props[key];
     };
 
@@ -193,7 +193,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      * @param {String} Key.
      * @param {Any} Value.
      */
-    ClassProto.set = function (key, value) {
+    ClassProtoClass.set = function (key, value) {
       this._props[key] = value;
 
       return this;
@@ -206,7 +206,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      * @param {Object} Batch properties to set.
      * @return {Object} `this` instance.
      */
-    ClassProto.setBatch = function () {
+    ClassProtoClass.setBatch = function () {
       var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var keys = Object.keys(obj);
@@ -228,7 +228,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      * @param {Any} Value.
      * @returns {Object} This instance.
      */
-    ClassProto.setIfNotSet = function (key, value) {
+    ClassProtoClass.setIfNotSet = function (key, value) {
       if (this._o[key] === undefined) {
         this.set(key, value);
       }
@@ -241,7 +241,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      *
      * @private
      */
-    ClassProto.init = function () {
+    ClassProtoClass.init = function () {
       var o = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       // save options
@@ -264,7 +264,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      *
      * @private
      */
-    ClassProto._declareDefaults = function () {
+    ClassProtoClass._declareDefaults = function () {
       this._defaults = {};
     };
 
@@ -273,7 +273,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      *                  with fallback to `_defaults`.
      * @private
      */
-    ClassProto._extendDefaults = function () {
+    ClassProtoClass._extendDefaults = function () {
       this._props = _extends({}, this._defaults);
 
       var keys = Object.keys(this._o);
@@ -293,10 +293,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
      *
      * @private
      */
-    ClassProto._vars = function () {};
+    ClassProtoClass._vars = function () {};
 
-    var ClassProtoClass = createClass(ClassProto);
-    exports.ClassProto = ClassProtoClass;
+    var ClassProto = createClass(ClassProtoClass);
+
+    exports.default = ClassProto;
+    exports.ClassProto = ClassProto;
   });
 });
 

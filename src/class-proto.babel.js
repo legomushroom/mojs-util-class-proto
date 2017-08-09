@@ -7,9 +7,9 @@
 export const createClass = (module) => {
   const w = (o) => {
     const instance = Object.create(module);
-    instance.init(o);
+    const result = instance.init(o);
 
-    return instance;
+    return (result !== undefined) ? result : instance;
   };
   w.__mojsClass = module;
   return w;
@@ -33,7 +33,7 @@ export const extendClass = (Super) => {
  *   - declare `_vars` after extention
  *   - call `_render` eventually
  */
-const ClassProto = {};
+const ClassProtoClass = {};
 
 /**
  * `get` - Method to get a property from `_props`.
@@ -42,7 +42,7 @@ const ClassProto = {};
  * @param {String} Key.
  * @returns {Any} Value from the `_props` by `key`.
  */
-ClassProto.get = function (key) {
+ClassProtoClass.get = function (key) {
   return this._props[key];
 };
 
@@ -53,7 +53,7 @@ ClassProto.get = function (key) {
  * @param {String} Key.
  * @param {Any} Value.
  */
-ClassProto.set = function (key, value) {
+ClassProtoClass.set = function (key, value) {
   this._props[key] = value;
 
   return this;
@@ -66,7 +66,7 @@ ClassProto.set = function (key, value) {
  * @param {Object} Batch properties to set.
  * @return {Object} `this` instance.
  */
-ClassProto.setBatch = function (obj = {}) {
+ClassProtoClass.setBatch = function (obj = {}) {
   const keys = Object.keys(obj);
 
   for (let i = 0; i < keys.length; i++) {
@@ -86,7 +86,7 @@ ClassProto.setBatch = function (obj = {}) {
  * @param {Any} Value.
  * @returns {Object} This instance.
  */
-ClassProto.setIfNotSet = function (key, value) {
+ClassProtoClass.setIfNotSet = function (key, value) {
   if (this._o[key] === undefined) {
     this.set(key, value);
   }
@@ -99,7 +99,7 @@ ClassProto.setIfNotSet = function (key, value) {
  *
  * @private
  */
-ClassProto.init = function (o = {}) {
+ClassProtoClass.init = function (o = {}) {
   // save options
   this._o = { ...o };
 
@@ -120,14 +120,14 @@ ClassProto.init = function (o = {}) {
  *
  * @private
  */
-ClassProto._declareDefaults = function () { this._defaults = {}; };
+ClassProtoClass._declareDefaults = function () { this._defaults = {}; };
 
 /**
  * _extendDefaults - Method to copy `_o` options to `_props` object
  *                  with fallback to `_defaults`.
  * @private
  */
-ClassProto._extendDefaults = function () {
+ClassProtoClass._extendDefaults = function () {
   this._props = { ...this._defaults };
 
   const keys = Object.keys(this._o);
@@ -147,7 +147,9 @@ ClassProto._extendDefaults = function () {
  *
  * @private
  */
-ClassProto._vars = function () {};
+ClassProtoClass._vars = function () {};
 
-const ClassProtoClass = createClass(ClassProto);
-export { ClassProtoClass as ClassProto };
+const ClassProto = createClass(ClassProtoClass);
+
+export default ClassProto;
+export { ClassProto };
